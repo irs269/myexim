@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR de test MyExim</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root { --navy: #0B2A6B; --gold: #C9A04A; --text: #0E0F0C; --muted: #5D6470; --bg: #F2F4F7; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  header { background: var(--navy); color: #fff; padding: 20px 24px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 6px 0 0; color: #ffffffcc; }
+  main { display: flex; flex-wrap: wrap; gap: 20px; padding: 24px; justify-content: center; }
+  .card { background: #fff; border-radius: 20px; padding: 20px; width: 280px; text-align: center; border: 3px solid var(--gold); }
+  .card h2 { font-size: 17px; margin: 0 0 4px; }
+  .card p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+  .qr { display: inline-block; }
+  code { display: block; margin-top: 12px; font-size: 11px; word-break: break-all; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>QR codes de démonstration — Scan To Pay</h1>
+  <p>Ouvrez MyExim › Paiements › Scan To Pay, puis visez un code. Format provisoire, en attendant la spécification de la banque.</p>
+</header>
+<main id="codes"></main>
+<script>
+  const codes = [
+    ['Commerçant, montant fixé', 'Supermarché Moroni : 12 500 KMF',
+     'eximpay:1?t=M&id=MRC001&n=Supermarch%C3%A9+Moroni&a=12500&r=FAC-2210'],
+    ['Commerçant, montant libre', 'Restaurant Le Select : vous saisissez le montant',
+     'eximpay:1?t=M&id=MRC002&n=Restaurant+Le+Select'],
+    ["Facture de l'État", 'AGID (impôts) : 145 000 KMF',
+     'eximpay:1?t=B&id=AGID&n=AGID+(Imp%C3%B4ts)&a=145000&r=AV2026001'],
+    ['Particulier (virement)', 'Said Ali Mmadi : 5 000 KMF demandés',
+     'eximpay:1?t=P&id=00100665544&n=Said+Ali+Mmadi&a=5000'],
+  ];
+  const main = document.getElementById('codes');
+  for (const [title, desc, data] of codes) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h2>${title}</h2><p>${desc}</p><div class="qr"></div><code>${data}</code>`;
+    main.appendChild(card);
+    new QRCode(card.querySelector('.qr'), { text: data, width: 220, height: 220, colorDark: '#0B2A6B', colorLight: '#ffffff' });
+  }
+</script>
+</body>
+</html>
